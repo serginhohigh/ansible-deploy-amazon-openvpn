@@ -1,0 +1,31 @@
+---
+# handlers file for push-docker
+
+ - name: docker build image
+   listen: docker deploy
+   shell: "cd {{ container_dir }} && docker build . -t {{ service_name }}"
+
+ - name: docker create network
+   listen: docker deploy
+   docker_network:
+     name: openvpn
+     state: present
+
+ - name: docker-compose up temporary for install openvpn and easy-rsa
+   listen: docker deploy
+   shell: "cd {{ container_dir }} && docker-compose run --rm {{ service_name }} openvpn_deploy"
+
+ - name: docker-compose up
+   listen: docker deploy
+   shell: "cd {{ container_dir }} && docker-compose up -d"
+
+ - name: copy client certificates to local host
+   listen: docker deploy
+   fetch:
+     src: "{{ item.src }}"
+     dest: /etc/ansible/client-keys
+   loop:
+     - { src: '{{ client_dir }}/ca.crt' }
+     - { src: '{{ client_dir }}/ta.key' }
+     - { src: '{{ client_dir }}/{{ openvpn_user }}.crt' }
+     - { src: '{{ client_dir }}/{{ openvpn_user }}.key' }

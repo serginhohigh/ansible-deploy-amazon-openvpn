@@ -1,0 +1,10 @@
+---
+# defaults file for push-docker
+
+dir: /opt/openvpn
+container_dir: "{{ dir }}-{{ openvpn_user }}"
+bin_dir: "{{ container_dir }}/bin"
+openvpn_dir: "{{ container_dir }}/openvpn"
+easyrsa_dir: "{{ openvpn_dir }}/easy-rsa"
+client_dir: "{{ openvpn_dir }}/client-keys"
+service_name: "openvpn-{{ openvpn_user }}"

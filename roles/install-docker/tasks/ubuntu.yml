@@ -1,0 +1,39 @@
+---
+
+ - name: Apt install docker dependencies
+   apt:
+     update_cache: yes
+     name: "{{ item }}"
+     state: latest
+   loop:
+     - apt-transport-https
+     - ca-certificates
+     - curl
+     - gnupg2
+     - software-properties-common
+     - python-pip
+
+ - name: Install docker-py
+   pip:
+     name: docker-py
+     state: latest
+
+ - name: Add docker key
+   apt_key:
+     url: https://download.docker.com/linux/ubuntu/gpg
+     id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+     state: present
+
+ - name: Add docker repo
+   apt_repository:
+     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+     filename: docker-repo
+     update_cache: yes
+     state: present
+   notify:
+     - Install docker-ce
+     - Install docker-compose
+     - Apply executable permissions to the binary
+     - Enable to start docker on boot
+     - Create docker group
+     - Add user to docker group

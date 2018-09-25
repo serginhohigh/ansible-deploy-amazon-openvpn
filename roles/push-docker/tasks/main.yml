@@ -1,0 +1,41 @@
+---
+# tasks file for push-docker
+
+ - name: Create dir tree in hosts
+   file:
+     path: "{{ item }}"
+     state: directory
+     mode: 0755
+     owner: ubuntu
+     group: ubuntu
+   loop:
+     - "{{ container_dir }}"
+     - "{{ bin_dir }}"
+     - "{{ openvpn_dir }}"
+     - "{{ easyrsa_dir }}"
+
+ - name: Copy docker template files to hosts
+   template:
+     src: "{{ item.src }}"
+     dest: "{{ item.dest }}"
+     owner: ubuntu
+     group: ubuntu
+     mode: 0644
+   loop:
+     - { src: 'docker-compose.j2', dest: '{{ container_dir }}/docker-compose.yml' }
+     - { src: 'openvpn_deploy.j2', dest: '{{ bin_dir }}/openvpn_deploy' }
+
+ - name: Copy docker files to hosts
+   copy:
+     src: "{{ item.src }}"
+     dest: "{{ item.dest }}"
+     owner: ubuntu
+     group: ubuntu
+     mode: 0644
+   loop:
+     - { src: 'Dockerfile', dest: '{{ container_dir }}/Dockerfile' }
+     - { src: 'openvpn_up', dest: '{{ bin_dir }}/openvpn_up' }
+     - { src: 'server.conf', dest: '{{ openvpn_dir }}/server.conf' }
+     - { src: 'vars', dest: '{{ easyrsa_dir }}/easy-rsa' }
+   notify: docker deploy
+

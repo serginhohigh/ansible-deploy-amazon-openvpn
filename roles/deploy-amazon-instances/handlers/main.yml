@@ -1,0 +1,34 @@
+---
+# handlers file for deploy-amazon-instances
+
+ - name: Get facts about all instances in eu-central-1
+   listen: Deploy local file structure
+   ec2_instance_facts:
+     region: eu-central-1
+   register: ec2_facts
+
+ - name: Add instances alias name to hosts file
+   listen: Deploy local file structure
+   lineinfile:
+     dest: /etc/ansible/hosts
+     line: "{{ item.tags.Name }}"
+   when: item.public_dns_name != ""
+   loop: "{{ ec2_facts.instances }}"
+
+ - name: Create hosts variables file to put hosts variable
+   listen: Deploy local file structure
+   file:
+     path: "{{ dir }}/{{ item.tags.Name }}"
+     state: touch
+     owner: root
+     group: root
+     mode: 0644
+   loop: "{{ ec2_facts.instances }}"
+
+ - name: Put variables to hosts variables files
+   listen: Deploy local file structure
+   lineinfile:
+     dest: "{{ dir }}/{{ item.tags.Name }}"
+     line: "openvpn_user: {{ item.tags.Name.split('-')[1] }}\nansible_host: {{ item.public_dns_name | string | lower }}"
+   loop: "{{ ec2_facts.instances }}"
+

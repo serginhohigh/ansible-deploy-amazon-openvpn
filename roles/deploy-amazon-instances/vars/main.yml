@@ -1,0 +1,9 @@
+---
+# vars file for deploy-amazon-instances
+
+openvpn_users:
+  - seriy
+  - beliy
+  - krasniy
+  - zeleniy
+  - oranzheviy

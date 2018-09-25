@@ -1,0 +1,30 @@
+---
+# tasks file for deploy-amazon-instances
+
+ - name: Amazon deploy instances
+   ec2:
+     key_name: seriy-environment
+     group_id: sg-04afd35b72c11252f
+     instance_type: t2.micro
+     image: ami-086a09d5b9fa35dc7
+     assign_public_ip: yes
+     vpc_subnet_id: subnet-0a2166f4a403144c5
+     region: "{{ region }}"
+     monitoring: yes
+     count: 1
+     instance_tags:
+       Name: "openvpn-{{ item }}"
+   register: ec2
+   loop: "{{ openvpn_users | list }}"
+
+ - name: Wait when instaces running
+   pause:
+     minutes: 1
+
+ - name: Associate new elastic IPs with each of the instances
+   ec2_eip:
+     device_id: "{{ item }}"
+     region: "{{ region }}"
+     in_vpc: yes
+   loop: "{{ ec2.results | map(attribute='instances') | map('first') | map(attribute='id') | list }}"
+   notify: Deploy local file structure

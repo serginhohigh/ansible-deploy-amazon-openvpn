@@ -1,0 +1,38 @@
+# Easy-RSA 3 parameter settings
+
+if [ -z "$EASYRSA_CALLER" ]; then
+        echo "You appear to be sourcing an Easy-RSA 'vars' file." >&2
+        echo "This is no longer necessary and is disallowed. See the section called" >&2
+        echo "'How to use this file' near the top comments for more details." >&2
+        return 1
+fi
+
+set_var EASYRSA        "$PWD"
+set_var EASYRSA_OPENSSL        "openssl"
+set_var EASYRSA_PKI            "$PWD/pki"
+set_var EASYRSA_DN     "cn_only"
+
+set_var EASYRSA_REQ_COUNTRY    "EU"
+set_var EASYRSA_REQ_PROVINCE   "Frankfurt"
+set_var EASYRSA_REQ_CITY       "Germany"
+set_var EASYRSA_REQ_ORG        "SCOMPANY"
+set_var EASYRSA_REQ_EMAIL      "itsev@keemail.me"
+set_var EASYRSA_REQ_OU         "SCOMPANY"
+
+set_var EASYRSA_KEY_SIZE       2048
+
+set_var EASYRSA_ALGO           rsa
+
+set_var EASYRSA_CA_EXPIRE      36500
+
+set_var EASYRSA_CERT_EXPIRE    36500
+
+set_var EASYRSA_CRL_DAYS       36500
+
+set_var EASYRSA_NS_SUPPORT     "no"
+
+set_var EASYRSA_TEMP_FILE      "$EASYRSA_PKI/extensions.temp"
+
+set_var EASYRSA_EXT_DIR        "$EASYRSA/x509-types"
+
+set_var EASYRSA_SSL_CONF       "$EASYRSA/openssl-easyrsa.cnf"

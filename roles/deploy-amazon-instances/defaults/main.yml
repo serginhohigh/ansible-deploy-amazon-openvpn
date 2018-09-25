@@ -1,0 +1,5 @@
+---
+# defaults file for deploy-amazon-instances
+
+region: eu-central-1
+dir: /etc/ansible/host_vars

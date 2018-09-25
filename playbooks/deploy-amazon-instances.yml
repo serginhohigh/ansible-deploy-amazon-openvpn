@@ -1,0 +1,8 @@
+---
+ - name:
+   hosts: local
+   connection: local
+   gather_facts: False
+
+   roles:
+    - deploy-amazon-instances
