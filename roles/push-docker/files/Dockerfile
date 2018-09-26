@@ -7,7 +7,8 @@ RUN apk update && apk upgrade && apk add --update \
         git \
         haveged \
         expect \
-        vim
+        vim \
+        netcat-openbsd
 
 
 RUN mkdir /var/log/openvpn && \
