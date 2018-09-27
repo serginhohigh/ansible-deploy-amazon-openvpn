@@ -1,6 +1,27 @@
 ---
 # tasks file for deploy-amazon-instances
 
+ - name: Get facts about available amazon instances
+   ec2_instance_facts:
+     region: "{{ region }}"
+   register: ec2_available
+
+ - name: Save instances tags.Name in variable 'ec2_available_instances'
+   debug:
+     msg: "{{ item.tags.Name.split('-')[1] }}"
+   loop: "{{ ec2_available.instances }}"
+   register: ec2_available_instances
+
+ - name: Set all instances tags in variable 'available_instances'
+   set_fact:
+     available_instances: "{{ ec2_available_instances.results | map(attribute='msg') | list }}"
+
+ - name: Stop play if instances already exists
+   fail:
+     msg: Please remove this var '{{ item }}' from variable list
+   loop: "{{ openvpn_users | list }}"
+   when: "item in available_instances"
+
  - name: Amazon deploy instances
    ec2:
      key_name: seriy-environment
@@ -14,8 +35,8 @@
      count: 1
      instance_tags:
        Name: "openvpn-{{ item }}"
-   register: ec2
    loop: "{{ openvpn_users | list }}"
+   register: ec2_deploy_results
 
  - name: Wait when instaces running
    pause:
@@ -26,5 +47,5 @@
      device_id: "{{ item }}"
      region: "{{ region }}"
      in_vpc: yes
-   loop: "{{ ec2.results | map(attribute='instances') | map('first') | map(attribute='id') | list }}"
+   loop: "{{ ec2_deploy_results.results | map(attribute='instances') | map('first') | map(attribute='id') | list }}"
    notify: Deploy local file structure
