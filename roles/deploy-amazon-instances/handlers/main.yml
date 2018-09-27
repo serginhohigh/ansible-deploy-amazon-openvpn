@@ -10,7 +10,7 @@
  - name: Add instances alias name to hosts file
    listen: Deploy local file structure
    lineinfile:
-     dest: /etc/ansible/hosts
+     dest: "{{ host_file }}"
      line: "{{ item.tags.Name }}"
    when: item.public_dns_name != ""
    loop: "{{ ec2_facts.instances }}"

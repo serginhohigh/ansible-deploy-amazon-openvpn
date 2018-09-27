@@ -1,5 +1,6 @@
 ---
 # defaults file for deploy-amazon-instances
 
-region: eu-central-1
+instance_type: t2.micro
+host_file: /etc/ansible/hosts
 dir: /etc/ansible/host_vars
