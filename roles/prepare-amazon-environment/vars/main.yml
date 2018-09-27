@@ -2,20 +2,20 @@
 # vars file for prepare-amazon-environment
 
 region: eu-central-1
-vpc_name: ProjectXX
+vpc_name: X
 vpc_tag:
-  Project: XX
+  Project: X
 ip_cidr_block: 10.10.0.0/21
 igw_tag:
-  Name: Project_X_IGWX
+  Name: X
 subnet_tag:
-  Name: Project_X_subnetX
+  Name: X
 route_table_tag:
-  Name: Project_X_route_tableX
-security_group: Project_X_security_groupX
-key_pair: Project_X_key_pairX
+  Name: X
+security_group: X
+key_pair: X
 
-destination_key: /etc/ansible/host-keys/amazon-cloud.pem
+destination_key: /etc/ansible/host-keys/amazon-services.pem
 variables_file: /etc/ansible/roles/deploy-amazon-instances/defaults/main.yml
 
 firewall:
