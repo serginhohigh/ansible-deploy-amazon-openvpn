@@ -23,6 +23,7 @@
      owner: root
      group: root
      mode: 0644
+   when: item.state.name != 'terminated'
    loop: "{{ ec2_facts.instances }}"
 
  - name: Put variables to hosts variables files
@@ -30,5 +31,5 @@
    lineinfile:
      dest: "{{ dir }}/{{ item.tags.Name }}"
      line: "openvpn_user: {{ item.tags.Name.split('-')[1] }}\nansible_host: {{ item.public_dns_name | string | lower }}"
+   when: item.tags.Name != "" and item.public_dns_name != "" and item.state.name != 'terminated'
    loop: "{{ ec2_facts.instances }}"
-
