@@ -1,0 +1,31 @@
+---
+# tasks file for prepare-amazon-environment
+
+ - name: Create security-group
+   ec2_group:
+     name: "{{ security_group }}"
+     description: Allow icmp and openvpn port from anywhere
+     region: "{{ region }}"
+     rules: "{{ item.rules }}"
+     vpc_id: "{{ vpc.vpc.id }}"
+   loop: "{{ firewall }}"
+   register: security_group
+
+ - name: Crate key-pair
+   ec2_key:
+     name: "{{ key_pair }}"
+     region: "{{ region }}"
+   register: ec2_key
+
+ - name: Save key-pair to local file
+   copy:
+     content: "{{ ec2_key.key.private_key }}"
+     dest: "{{ destination_key }}"
+     owner: root
+     group: root
+     mode: 0400
+   when: ec2_key.changed == true
+   notify: Save some variable
+
+ - name: debug
+   shell: echo "{{ security_group.results | map(attribute='group_id') | list | join }}" >> /tmp/null.txt
