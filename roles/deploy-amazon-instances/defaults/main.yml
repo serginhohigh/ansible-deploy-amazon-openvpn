@@ -4,3 +4,4 @@
 instance_type: t2.micro
 host_file: /etc/ansible/hosts
 dir: /etc/ansible/host_vars
+csv_file: /etc/ansible/amazon-instances.csv

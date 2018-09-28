@@ -33,3 +33,18 @@
      line: "openvpn_user: {{ item.tags.Name.split('-')[1] }}\nansible_host: {{ item.public_dns_name | string | lower }}"
    when: item.tags.Name != "" and item.public_dns_name != "" and item.state.name != 'terminated'
    loop: "{{ ec2_facts.instances }}"
+
+ - name: Create csv file with headlines
+   listen: Deploy local file structure
+   lineinfile:
+     create: yes
+     dest: "{{ csv_file }}"
+     line: "ID,Name,PublicDNS,PublicIP,PrivateDNS,PrivateIP,Zone,Type,KeyPair,SecGroup"
+
+ - name: Write to csv file information about instances
+   listen: Deploy local file structure
+   lineinfile:
+     dest: "{{ csv_file }}"
+     line: "{{ item.instance_id }},{{ item.tags.Name }},{{ item.public_dns_name }},{{ item.public_ip_address }},{{ item.private_dns_name }},{{ item.private_ip_address }},{{ item.placement.availability_zone }},{{ item.instance_type }},{{ item.key_name }},{{ item.security_groups | map(attribute='group_name') | list | join }}"
+   loop: "{{ ec2_facts.instances }}"
+   ignore_errors: yes

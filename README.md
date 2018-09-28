@@ -65,6 +65,7 @@
   - [server.conf](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/roles/push-docker/files/server.conf)
   - [vars](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/roles/push-docker/files/vars)
 ### Installations steps
+---
 ```sh
 cd /etc/ansible
 ansible-playbook playbooks/prepare-amazon-environment.yml
