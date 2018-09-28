@@ -10,7 +10,7 @@
     - ansible_ssh_private_key: /etc/ansible/host-keys/amazon-services.pem
 
 ### Installiation step:
-`ansible-playbook playbooks/prepare-amazon-environment.yml`
-`ansible-playbook playbooks/deploy-amazon-instances.yml`
-`ansible-playbook playbooks/install-docker.yml`
-`ansible-playbook playbooks/push-docker.yml`
+`ansible-playbook playbooks/prepare-amazon-environment.yml
+ansible-playbook playbooks/deploy-amazon-instances.yml
+ansible-playbook playbooks/install-docker.yml
+ansible-playbook playbooks/push-docker.yml`
