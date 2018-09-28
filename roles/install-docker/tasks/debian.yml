@@ -11,6 +11,7 @@
      - curl
      - gnupg2
      - software-properties-common
+     - haveged
 
  - name: Add docker key
    apt_key:
