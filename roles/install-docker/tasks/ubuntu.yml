@@ -12,6 +12,7 @@
      - gnupg2
      - software-properties-common
      - python-pip
+     - haveged
 
  - name: Install docker-py
    pip:
