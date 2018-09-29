@@ -39,15 +39,15 @@
 >    - Save instances information in csv file eg instance_id, public and privat ip etc
 
 #### Install docker
-[Playbook](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/playbooks/install-docker.yml)
-[Role](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/tree/staging/roles/install-docker)
+- [Playbook](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/playbooks/install-docker.yml)
+- [Role](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/tree/staging/roles/install-docker)
 
 > What is doing this role
 > - Install docker and docker-compose on each host in '[amazon-services]' group
 
 #### Push docker
-[Playbook](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/playbooks/push-docker.yml)
-[Role](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/tree/staging/roles/push-docker)
+- [Playbook](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/playbooks/push-docker.yml)
+- [Role](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/tree/staging/roles/push-docker)
 > What is doing this role
 >  - Create dir tree for openvpn service
 >  - Copy docker templates and files to created dir tree
@@ -69,6 +69,8 @@
 cd /etc/ansible
 ansible-playbook playbooks/prepare-amazon-environment.yml
 ansible-playbook playbooks/deploy-amazon-instances.yml
+ssh-agent bash
+ssh-add host-keys/amazon-services.pem
 ansible-playbook playbooks/install-docker.yml
 ansible-playbook playbooks/push-docker.yml
 ```
