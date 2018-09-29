@@ -24,6 +24,15 @@
      mode: 0644
      dest: "{{ amazon_vars }}"
      line: "ansible_user: ubuntu\nansible_ssh_private_key: /etc/ansible/host-keys/amazon-services.pem"
+     
+ - name: Create 'hosts_vars' directory
+   listen: Deploy local file structure
+   file:
+     mode: 0755
+     owner: root
+     group: root
+     path: "{{ dir }}"
+     state: directory
 
  - name: Create hosts variables file to put hosts variable
    listen: Deploy local file structure
