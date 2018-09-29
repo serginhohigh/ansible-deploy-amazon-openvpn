@@ -16,6 +16,14 @@
      name: "{{ key_pair }}"
      region: "{{ region }}"
    register: ec2_key
+   
+ - name: Create clients certificate dir
+   file:
+     mode: 0755
+     owner: root
+     group: root
+     path: "{{ keys_dir }}"
+     state: directory
 
  - name: Save key-pair to local file
    copy:
