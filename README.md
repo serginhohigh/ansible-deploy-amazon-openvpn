@@ -74,3 +74,5 @@ ssh-add host-keys/amazon-services.pem
 ansible-playbook playbooks/install-docker.yml
 ansible-playbook playbooks/push-docker.yml
 ```
+#### After successful deploying, you will get the following tree
+![](https://i.imgur.com/dmx76k2.png)
