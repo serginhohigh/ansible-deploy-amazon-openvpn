@@ -1,6 +1,7 @@
 ---
 # vars file for deploy-amazon-instances
 
+wait_time: 1
 openvpn_users:
   - seriy
   - beliy
