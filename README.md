@@ -6,9 +6,6 @@
  - boto3
  - ansible version => 2.5
  - aws access and secret key
- - /etc/ansible/group_vars/amazon-services:
-   -   ansible_user: ubuntu
-   -   ansible_ssh_private_key: /etc/ansible/host-keys/amazon-services.pem
 
 ### Roles
 ---
@@ -31,10 +28,12 @@
 > What is doing this role
 > - Check available instances
 > - Create multiple instances (count you set yourself via variable openvpn_users in [vars](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/roles/deploy-amazon-instances/vars/main.yml))
->   - Note! If instance tag already exists this name in 'openvpn_users' will be skipped
+>   - Note! If instance tag already exists task will be failed with this message:
+     ![](https://i.imgur.com/YBj7yfX.png)
 >  - Associate new elastic ip to each create instance
 >  - Create local file structure
 >    - Add instances alias name to hosts file
+>    - Create group variables file in dir 'group_vars'
 >    - Create hosts variables file in dir 'host_vars'
 >    - Write public dns name and tags.Name[0], example 'seriy', in each host alias
 >    - Save instances information in csv file eg instance_id, public and privat ip etc
