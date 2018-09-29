@@ -15,7 +15,8 @@ route_table_tag:
 security_group: X
 key_pair: X
 
-destination_key: /etc/ansible/host-keys/amazon-services.pem
+keys_dir: /etc/ansible/host-keys
+destination_key: "{{ keys_dir }}/amazon-services.pem"
 variables_file: /etc/ansible/roles/deploy-amazon-instances/defaults/main.yml
 
 firewall:
