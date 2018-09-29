@@ -40,7 +40,7 @@
 
  - name: Wait when instaces running
    pause:
-     minutes: 1
+     minutes: "{{ wait_time }}"
 
  - name: Associate new elastic IPs with each of the instances
    ec2_eip:
