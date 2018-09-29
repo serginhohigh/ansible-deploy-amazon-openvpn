@@ -1,6 +1,6 @@
 ---
 
- - name: Deploy openvpn app or each amazon isntances
+ - name: Deploy openvpn app on each amazon isntances
    hosts: amazon-services
    become: yes
    become_method: sudo
