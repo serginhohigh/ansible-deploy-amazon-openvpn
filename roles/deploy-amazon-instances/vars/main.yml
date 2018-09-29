@@ -1,6 +1,7 @@
 ---
 # vars file for deploy-amazon-instances
 
+amazon_vars: /etc/ansible/group_vars/amazon-services
 wait_time: 1
 openvpn_users:
   - seriy
