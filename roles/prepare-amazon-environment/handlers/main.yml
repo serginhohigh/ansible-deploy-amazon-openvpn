@@ -1,0 +1,14 @@
+---
+# handlers file for prepare-amazon-environment
+
+ - name:
+   listen: Save some variable
+   lineinfile:
+     dest: "{{ variables_file }}"
+     line: "{{ item }}"
+   loop:
+     - "security_group_id: {{ security_group.results | map(attribute='group_id') | list | join }}"
+     - "key_pair_name: {{ ec2_key.key.name  }}"
+     - "subnet_id: {{ subnet.subnet.id }}"
+     - "region: {{ region }}"
+      

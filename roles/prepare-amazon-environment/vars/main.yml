@@ -1,0 +1,36 @@
+---
+# vars file for prepare-amazon-environment
+
+region: eu-central-1
+vpc_name: X
+vpc_tag:
+  Project: X
+ip_cidr_block: 10.10.0.0/21
+igw_tag:
+  Name: X
+subnet_tag:
+  Name: X
+route_table_tag:
+  Name: X
+security_group: X
+key_pair: X
+
+keys_dir: /etc/ansible/host-keys
+destination_key: "{{ keys_dir }}/amazon-services.pem"
+variables_file: /etc/ansible/roles/deploy-amazon-instances/defaults/main.yml
+
+firewall:
+  - name: firewall rules
+    rules:
+      - proto: icmp
+        from_port: 8
+        to_port: -1
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports:
+          - 443
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: 0.0.0.0/0

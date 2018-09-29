@@ -1,0 +1,39 @@
+---
+# tasks file for prepare-amazon-environment
+
+ - name: Create VPC
+   ec2_vpc_net:
+     name: "{{ vpc_name }}"
+     cidr_block: "{{ ip_cidr_block }}"
+     tags: "{{ vpc_tag }}"
+     region: "{{ region }}"
+   register: vpc
+
+ - name: Create igw
+   ec2_vpc_igw:
+     vpc_id: "{{ vpc.vpc.id }}"
+     region: "{{ region }}"
+     tags: "{{ igw_tag }}"
+   register: vpc_igw
+
+ - name: Create subnet in VPC - {{ vpc.vpc.tags.Name }}
+   ec2_vpc_subnet:
+     vpc_id: "{{ vpc.vpc.id }}"
+     cidr: "{{ ip_cidr_block }}"
+     resource_tags: "{{ subnet_tag }}"
+     region: "{{ region}}"
+     az: "{{ region}}a"
+     map_public: yes
+   register: subnet
+
+ - name: Create route table for subnet - {{ subnet.subnet.id }}
+   ec2_vpc_route_table:
+     vpc_id: "{{ vpc.vpc.id }}"
+     region: "{{ region }}"
+     tags: "{{ route_table_tag }}"
+     subnets:
+       - "{{ subnet_tag.Name }}"
+     routes:
+       - dest: 0.0.0.0/0
+         gateway_id: "{{ vpc_igw.gateway_id }}"
+   register: route_table

@@ -1,0 +1,5 @@
+---
+# tasks file for prepare-amazon-environment
+
+ - import_tasks: step-one.yml
+ - import_tasks: step-two.yml

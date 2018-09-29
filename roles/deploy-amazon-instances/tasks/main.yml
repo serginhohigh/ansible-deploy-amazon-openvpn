@@ -24,12 +24,12 @@
 
  - name: Amazon deploy instances
    ec2:
-     key_name: seriy-environment
-     group_id: sg-04afd35b72c11252f
-     instance_type: t2.micro
+     key_name: "{{ key_pair_name }}"
+     group_id: "{{ security_group_id }}"
+     instance_type: "{{ instance_type }}"
      image: ami-086a09d5b9fa35dc7
      assign_public_ip: yes
-     vpc_subnet_id: subnet-0a2166f4a403144c5
+     vpc_subnet_id: "{{ subnet_id }}"
      region: "{{ region }}"
      monitoring: yes
      count: 1
@@ -40,7 +40,7 @@
 
  - name: Wait when instaces running
    pause:
-     minutes: 1
+     minutes: "{{ wait_time }}"
 
  - name: Associate new elastic IPs with each of the instances
    ec2_eip:

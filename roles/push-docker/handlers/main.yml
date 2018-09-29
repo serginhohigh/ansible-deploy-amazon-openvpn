@@ -18,12 +18,21 @@
  - name: docker-compose up
    listen: docker deploy
    shell: "cd {{ container_dir }} && docker-compose up -d"
+   
+ - name: Create clients certificate dir
+   listen: docker deploy
+   file:
+     mode: 0755
+     owner: root
+     group: root
+     path: "{{ local_client_dir }}"
+     state: directory
 
  - name: copy client certificates to local host
    listen: docker deploy
    fetch:
      src: "{{ item.src }}"
-     dest: /etc/ansible/client-keys
+     dest: "{{ local_client_dir }}"
    loop:
      - { src: '{{ client_dir }}/ca.crt' }
      - { src: '{{ client_dir }}/ta.key' }
