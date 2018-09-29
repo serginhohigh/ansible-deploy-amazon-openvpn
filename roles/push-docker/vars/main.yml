@@ -1,2 +1,4 @@
 ---
 # vars file for push-docker
+
+local_client_dir: /etc/ansible/client-keys
