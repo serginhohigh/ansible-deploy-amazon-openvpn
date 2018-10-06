@@ -1,7 +1,7 @@
 ---
 
  - name: Install docker and docker-compose on amazon instances
-   hosts: amazon-services
+   hosts: amazon-proxy-instances
    become: yes
    become_method: sudo
    become_user: root
@@ -17,4 +17,4 @@
        setup:
 
    roles:
-     - install-docker
+     - configure-proxy-instances

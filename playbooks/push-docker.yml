@@ -1,7 +1,7 @@
 ---
 
- - name: Deploy openvpn app on each amazon isntances
-   hosts: amazon-services
+ - name: Deploy openvpn app or each amazon isntances
+   hosts: amazon-openvpn-instances
    become: yes
    become_method: sudo
    remote_user: root

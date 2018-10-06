@@ -12,6 +12,7 @@
      - gnupg2
      - software-properties-common
      - haveged
+     - unattended-upgrades
 
  - name: Add docker key
    apt_key:

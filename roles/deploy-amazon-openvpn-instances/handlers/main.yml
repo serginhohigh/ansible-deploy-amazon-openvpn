@@ -7,14 +7,24 @@
      region: eu-central-1
    register: ec2_facts
 
- - name: Add instances alias name to hosts file
+ - name: Add openvpn instances alias name to hosts file
    listen: Deploy local file structure
    lineinfile:
+     insertafter: '^\[amazon-openvpn-instances\]'
      dest: "{{ host_file }}"
      line: "{{ item.tags.Name }}"
-   when: item.public_dns_name != ""
+   when: item.public_dns_name != "" and item.tags.Name is match('^\D+$')
    loop: "{{ ec2_facts.instances }}"
    
+ - name: Add proxy instances alias name to hosts file
+   listen: Deploy local file structure
+   lineinfile:
+     insertafter: '^\[amazon-proxy-instances\]'
+     dest: "{{ host_file }}"
+     line: "{{ item.tags.Name }}"
+   when: item.public_dns_name != "" and item.tags.Name is match('.*[0-9$]')
+   loop: "{{ ec2_facts.instances }}"
+
  - name: Create 'amazon-services' group variables file
    listen: Deploy local file structure
    lineinfile:
@@ -22,8 +32,9 @@
      owner: root
      group: root
      mode: 0644
-     dest: "{{ amazon_vars }}"
+     dest: "{{ item }}"
      line: "ansible_user: ubuntu\nansible_ssh_private_key: /etc/ansible/host-keys/amazon-services.pem"
+   loop: "{{ amazon_vars | list }}"
      
  - name: Create 'hosts_vars' directory
    listen: Deploy local file structure
@@ -45,14 +56,22 @@
    when: item.state.name != 'terminated'
    loop: "{{ ec2_facts.instances }}"
 
- - name: Put variables to hosts variables files
+ - name: Put variables to openvpn hosts variables files
    listen: Deploy local file structure
    lineinfile:
      dest: "{{ dir }}/{{ item.tags.Name }}"
-     line: "openvpn_user: {{ item.tags.Name.split('-')[1] }}\nansible_host: {{ item.public_dns_name }}"
-   when: item.tags.Name != "" and item.public_dns_name != "" and item.state.name != 'terminated'
+     line: "openvpn_user: {{ item.tags.Name.split('-')[1] }}\nansible_host: {{ item.public_dns_name }}\npublic_ip: {{ item.public_ip_address }}\nprivate_dns: {{ item.private_dns_name }}\nprivate_ip: {{ item.private_ip_address }}"
+   when: item.tags.Name != "" and item.public_dns_name != "" and item.state.name != 'terminated' and item.tags.Name is match('^\D+$')
    loop: "{{ ec2_facts.instances }}"
 
+ - name: Put variables to proxy hosts variables files
+   listen: Deploy local file structure
+   lineinfile:
+     dest: "{{ dir }}/{{ item.tags.Name }}"
+     line: "ansible_host: {{ item.public_dns_name }}\npublic_ip: {{ item.public_ip_address }}\nprivate_dns: {{ item.private_dns_name }}\nprivate_ip: {{ item.private_ip_address }}"
+   when: item.tags.Name != "" and item.public_dns_name != "" and item.state.name != 'terminated' and item.tags.Name is match('.*[0-9$]')
+   loop: "{{ ec2_facts.instances }}"
+   
  - name: Create csv file with headlines
    listen: Deploy local file structure
    lineinfile:

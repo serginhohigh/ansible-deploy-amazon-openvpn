@@ -13,6 +13,7 @@
      - software-properties-common
      - python-pip
      - haveged
+     - unattended-upgrades
 
  - name: Install docker-py
    pip:
@@ -38,3 +39,6 @@
      - Enable to start docker on boot
      - Create docker group
      - Add user to docker group
+     - Configure '50-unattended-upgares' file
+     - Configure '20auto-upgrades' file
+     - Restart unattended-upgrades service

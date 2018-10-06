@@ -1,0 +1,11 @@
+---
+# vars file for deploy-amazon-proxy-instances
+
+instance_type: t2.medium
+wait_time: 1
+openvpn_proxy:
+  - proxy01
+  - proxy02
+private_ip:
+  - 10.50.0.254
+  - 10.50.1.254

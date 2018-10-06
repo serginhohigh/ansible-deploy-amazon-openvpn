@@ -32,3 +32,24 @@
      name: "{{ user }}"
      groups: docker
      append: yes
+
+ - name: Configure '50-unattended-upgares' file
+   lineinfile:
+     regexp: '//Unattended-Upgrade::Remove-Unused-Dependencies "false";'
+     line: 'Unattended-Upgrade::Remove-Unused-Dependencies "true";'
+     dest: /etc/apt/apt.conf.d/50unattended-upgrades
+     backrefs: yes
+
+ - name: Configure '20auto-upgrades' file
+   lineinfile:
+     line: "{{ item }}"
+     dest: /etc/apt/apt.conf.d/20auto-upgrades
+   loop:
+     - 'APT::Periodic::Download-Upgradeable-Packages "1";'
+     - 'APT::Periodic::AutocleanInterval "7";' 
+
+ - name: Restart unattended-upgrades service
+   systemd:
+     name: unattended-upgrades
+     state: restarted
+

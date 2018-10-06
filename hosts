@@ -1,4 +1,6 @@
 [local]
 localhost
 
-[amazon-services]
+[amazon-openvpn-instances]
+
+[amazon-proxy-instances]

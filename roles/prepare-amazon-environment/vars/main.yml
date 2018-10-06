@@ -5,7 +5,7 @@ region: eu-central-1
 vpc_name: X
 vpc_tag:
   Project: X
-ip_cidr_block: 10.10.0.0/21
+ip_cidr_block: 10.50.0.0/23
 igw_tag:
   Name: X
 subnet_tag:
@@ -17,7 +17,9 @@ key_pair: X
 
 keys_dir: /etc/ansible/host-keys
 destination_key: "{{ keys_dir }}/amazon-services.pem"
-variables_file: /etc/ansible/roles/deploy-amazon-instances/defaults/main.yml
+variables_files:
+  - /etc/ansible/roles/deploy-amazon-openvpn-instances/defaults/main.yml
+  - /etc/ansible/roles/deploy-amazon-proxy-instances/defaults/main.yml
 
 firewall:
   - name: firewall rules

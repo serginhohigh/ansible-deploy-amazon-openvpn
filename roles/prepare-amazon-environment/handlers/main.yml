@@ -1,14 +1,20 @@
 ---
 # handlers file for prepare-amazon-environment
 
- - name:
-   listen: Save some variable
+ - name: Set variable
+   listen: Save variables to two different files
+   set_fact:
+     objects:
+       - "security_group_id: {{ security_group.results | map(attribute='group_id') | list | join }}"
+       - "key_pair_name: {{ ec2_key.key.name  }}"
+       - "subnet_id: {{ subnet.subnet.id }}"
+       - "region: {{ region }}"
+
+ - name: Save variables to two different files
+   listen: Save variables to two different files
    lineinfile:
-     dest: "{{ variables_file }}"
-     line: "{{ item }}"
-   loop:
-     - "security_group_id: {{ security_group.results | map(attribute='group_id') | list | join }}"
-     - "key_pair_name: {{ ec2_key.key.name  }}"
-     - "subnet_id: {{ subnet.subnet.id }}"
-     - "region: {{ region }}"
-      
+     dest: "{{ item.0 }}"
+     line: "{{ item.1 }}"
+   with_nested:
+     - "{{ variables_files }}"
+     - "{{ objects }}" 

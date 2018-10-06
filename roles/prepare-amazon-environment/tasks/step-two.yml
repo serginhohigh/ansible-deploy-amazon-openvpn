@@ -33,4 +33,7 @@
      group: root
      mode: 0400
    when: ec2_key.changed == true
-   notify: Save some variable
+
+ - name:
+   shell: printf "K" > /tmp/sick.txt
+   notify: Save variables to two different files
