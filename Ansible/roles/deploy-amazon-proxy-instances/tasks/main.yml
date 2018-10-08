@@ -35,7 +35,7 @@
      count: 1
      private_ip: "{{ item.1 }}"
      instance_tags:
-       Name: "{{ item.0 }}"
+       Name: "openvpn-{{ item.0 }}"
    with_together:
      - "{{ openvpn_proxy | list }}"
      - "{{ private_ip | list }}"
