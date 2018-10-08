@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
-mkdir -p /dev/net && mknod /dev/net/tun c 10 200
+network='10.0.15.0/29'
 
+PrepareOpenvpn() {
+  mkdir -p /dev/net && mknod /dev/net/tun c 10 200
+  iptables -t nat -A POSTROUTING -s "$network" -o eth0 -j MASQUERADE
+}
+
+PrepareOpenvpn
 /usr/sbin/openvpn --config /etc/openvpn/server.conf
