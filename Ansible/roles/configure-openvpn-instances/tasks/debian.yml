@@ -1,5 +1,10 @@
 ---
 
+ - name: Upgrade all packages
+   apt:
+     update_cache: yes
+     upgrade: yes
+
  - name: Apt install docker dependencies
    apt:
      update_cache: yes
