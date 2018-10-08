@@ -1,10 +1,14 @@
 ---
 # tasks file for install-proxysoftware
 
- - name: Apt install amazon-utils
+ - name: Upgrade all packages
    apt:
      update_cache: yes
      upgrade: yes
+
+ - name: Apt install amazon-utils
+   apt:
+     update_cache: yes
      name: "{{ item }}"
      state: latest
    loop:
