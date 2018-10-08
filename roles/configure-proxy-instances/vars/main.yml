@@ -1,6 +1,0 @@
----
-# vars file for install-proxysoftware
-
-remote_subnet: 192.168.10.0/24 
-local_subnet: 10.50.0.0/23
-target_ip: 89.207.88.157

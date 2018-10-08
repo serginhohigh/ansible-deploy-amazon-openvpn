@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+cd /tmp && git clone https://github.com/OpenVPN/easy-rsa.git && \
+        cp -r ./easy-rsa/easyrsa3/* /etc/openvpn/easy-rsa/
+
+mkdir /etc/openvpn/ccd && mkdir /etc/openvpn/client-keys
+
+cd /etc/openvpn/easy-rsa && \
+        ./easyrsa init-pki || { printf "ERROR! Please check openvpn dir or make init-pki handly\n"; exit 1; }
+
+expect << EOF
+	spawn ./easyrsa build-ca nopass
+        expect {
+        	"Common Name" { send "'YOUR FQDN'\r" }
+        }
+        expect eof
+        sleep 1
+
+        spawn ./easyrsa gen-req server nopass
+        expect {
+        	"Common Name" { send "'YOUR FQDN'\r" }
+        }
+        sleep 1
+        expect eof
+EOF
+
+./easyrsa import-req pki/reqs/server.req "'YOUR FQDN'"
+
+expect << EOF
+	spawn ./easyrsa sign-req server 'YOUR FQDN'
+        expect {
+                "Confirm request" { send "yes\r" }
+        }
+        sleep 1
+        expect eof
+EOF
+
+./easyrsa gen-dh && openvpn --genkey --secret ../ta.key
+
+expect << EOF
+   	spawn ./easyrsa gen-req 'YOUR OPENVPN USER' nopass
+   	expect {
+   		"Common Name" { send "\r" }
+   	}
+    	expect eof
+    	sleep 1
+
+    	spawn ./easyrsa sign-req client 'YOUR OPENVPN USER'
+    	expect {
+        	"Confirm request" { send "yes\r" }
+    	}
+    	expect eof
+    	sleep 1
+EOF
+
+cp pki/private/server.key ../ && cp pki/issued/'YOUR FQDN'.crt ../server.crt && \
+        cp pki/ca.crt ../ && cp pki/dh.pem ../ && cp /etc/openvpn/easy-rsa/pki/private/'YOUR OPENVPN USER'.key ../client-keys/ && \
+        cp /etc/openvpn/easy-rsa/pki/issued/'YOUR OPENVPN USER'.crt ../client-keys/ && \
+        cp /etc/openvpn/{ca.crt,ta.key} ../client-keys/

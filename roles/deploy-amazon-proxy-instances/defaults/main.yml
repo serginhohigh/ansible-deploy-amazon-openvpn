@@ -1,7 +1,0 @@
----
-# defaults file for deploy-amazon-proxy-instances
-
-security_group_id: sg-09f0443276fe00374
-key_pair_name: X
-subnet_id: subnet-0debf259d44e527e9
-region: eu-central-1
