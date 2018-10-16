@@ -10,19 +10,19 @@
 ### Roles
 ---
 #### Prepare amazone environment for deploy instances
-- [Playbook](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/playbooks/prepare-amazon-environment.yml)
-- [Role](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/tree/staging/roles/prepare-amazon-environment)
+- [Playbook](./playbooks/prepare-amazon-environment.yml)
+- [Role](./roles/prepare-amazon-environment)
 > What is doing this role
 > - Create VPC
 > - Create IGW
-> - Create Subnet
+> - Create Subnet (same as vpc cidr)
 > - Create Route table
-> - Create Security group
+> - Create Security group with curstom rules (look in variables file - [vars](./roles/prepare-amazon-environment/vars/main.yml))
 > - Create Key-pair
-> - Save key-pair in local file (destination see in variables file - [vars](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/roles/prepare-amazon-environment/vars/main.yml))
-> - Write some variable in 'deploy amazon instances' role (see [handlers](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/roles/prepare-amazon-environment/handlers/main.yml))
+> - Save key-pair in local file (look in variables file - [vars](./roles/prepare-amazon-environment/vars/main.yml))
+> - Write some variables in 'deploy-amazon-proxy-instances' and 'deploy-amazon-openvpn-instances' roles (look in [handlers](./roles/prepare-amazon-environment/handlers/main.yml))
 
-#### Deploy amazon instances
+#### Deploy amazon proxy instances
 - [Playbook](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/blob/staging/playbooks/deploy-amazon-instances.yml)
 - [Role](https://github.com/SERIY1337/ansible-deploy-amazon-openvpn/tree/staging/roles/deploy-amazon-instances)
 > What is doing this role
