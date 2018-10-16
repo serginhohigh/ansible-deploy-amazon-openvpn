@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 state=$3
-ip='10.10.1.4'
+ip='10.50.1.4'
 mac=`ip link show eth0 | awk '/ether/ {print $2}'`
 iface_id=`curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/"$mac"/interface-id`
 
