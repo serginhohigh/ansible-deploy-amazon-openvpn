@@ -7,5 +7,5 @@ openvpn_proxy:
   - proxy01
   - proxy02
 private_ip:
-  - 'YOUR PRIVATE IP OF FIRST PROXY'
-  - 'YOUR PRIVATE IP OF SECOND PROXY'
+  - 10.50.0.254
+  - 10.50.1.254
