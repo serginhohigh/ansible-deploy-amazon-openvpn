@@ -5,7 +5,7 @@ region: eu-central-1
 vpc_name: X
 vpc_tag:
   Project: X
-ip_cidr_block: 'YOUR CIDR BLOCK'
+ip_cidr_block: 10.50.0.0/23
 igw_tag:
   Name: X
 subnet_tag:
