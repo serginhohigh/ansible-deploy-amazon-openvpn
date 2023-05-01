@@ -1,0 +1,71 @@
+---
+# tasks file for install-proxysoftware
+
+ - name: Upgrade all packages
+   apt:
+     update_cache: yes
+     upgrade: yes
+
+ - name: Apt install amazon-utils
+   apt:
+     update_cache: yes
+     name: "{{ item }}"
+     state: latest
+   loop:
+     - apt-transport-https
+     - ca-certificates
+     - curl
+     - gnupg2
+     - software-properties-common
+     - python-pip
+     - haveged
+     - keepalived
+     - ec2-api-tools
+     - strongswan
+     - unattended-upgrades
+
+ - name: Copy strongswan templates to openvpn-proxy01
+   template:
+     src: "{{ item.src }}"
+     dest: "{{ item.dest }}"
+     owner: root
+     group: root
+     mode: "{{ item.mode }}"
+   when: inventory_hostname == "openvpn-proxy01"
+   loop:
+     - { src: 'openvpn-proxy01.ipsec.conf', dest: '/etc/ipsec.conf', mode: '0644' }
+     - { src: 'openvpn-proxy01.ipsec.secrets', dest: '/etc/ipsec.secrets', mode: '0644' }
+     - { src: 'openvpn-proxy01.keepalived.conf', dest: '/etc/keepalived/keepalived.conf', mode: '0644' }
+     - { src: 'openvpn-proxy01.master.sh', dest: '/etc/keepalived/master.sh', mode: '0755' }
+     - { src: 'openvpn-proxy01.backup.sh', dest: '/etc/keepalived/backup.sh', mode: '0755' }
+
+ - name: Copy strongswan templates to openvpn-proxy02
+   template:
+     src: "{{ item.src }}"
+     dest: "{{ item.dest }}"
+     owner: root
+     group: root
+     mode: "{{ item.mode }}"
+   when: inventory_hostname == "openvpn-proxy02"
+   loop:
+     - { src: 'openvpn-proxy02.ipsec.conf', dest: '/etc/ipsec.conf', mode: '0644' }
+     - { src: 'openvpn-proxy02.ipsec.secrets', dest: '/etc/ipsec.secrets', mode: '0644' }
+     - { src: 'openvpn-proxy02.keepalived.conf', dest: '/etc/keepalived/keepalived.conf', mode: '0644'}
+     - { src: 'openvpn-proxy02.master.sh', dest: '/etc/keepalived/master.sh', mode: '0755'}
+     - { src: 'openvpn-proxy02.backup.sh', dest: '/etc/keepalived/backup.sh', mode: '0755' }
+
+ - name: Configure '50-unattended-upgares' file
+   lineinfile:
+     regexp: '//Unattended-Upgrade::Remove-Unused-Dependencies "false";'
+     line: 'Unattended-Upgrade::Remove-Unused-Dependencies "true";'
+     dest: /etc/apt/apt.conf.d/50unattended-upgrades
+     backrefs: yes
+
+ - name: Configure '20auto-upgrades' file
+   lineinfile:
+     line: "{{ item }}"
+     dest: /etc/apt/apt.conf.d/20auto-upgrades
+   loop:
+     - 'APT::Periodic::Download-Upgradeable-Packages "1";'
+     - 'APT::Periodic::AutocleanInterval "7";'
+   notify: Enable all services

@@ -1,0 +1,23 @@
+---
+# handlers file for install-proxysoftware
+
+ - name: Enable to start all services on boot
+   listen: Enable all services
+   systemd:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+   loop:
+     - keepalived
+     - strongswan
+     - unattended-upgrades
+
+ - name: Restart all services
+   listen: Enable all services
+   systemd:
+     name: "{{ item }}"
+     state: restarted
+   loop:
+     - keepalived
+     - strongswan
+     - unattended-upgrades

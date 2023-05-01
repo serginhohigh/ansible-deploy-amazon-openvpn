@@ -1,0 +1,6 @@
+---
+# vars file for install-proxysoftware
+
+remote_subnet: 172.16.0.0/16 
+local_subnet: 10.50.0.0/23
+target_ip: 'YOUR REMOTE TARGET PUBLIC IP'

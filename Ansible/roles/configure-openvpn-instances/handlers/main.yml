@@ -1,0 +1,55 @@
+---
+# handlers file for install-docker
+
+ - name: Install docker-ce
+   apt:
+     name: docker-ce
+     state: latest
+
+ - name: Install docker-compose
+   get_url:
+     url: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}
+     dest: /usr/local/bin/docker-compose
+
+ - name: Enable to start docker on boot
+   systemd:
+     name: docker
+     state: started
+     enabled: yes
+                          
+ - name: Apply executable permissions to the binary
+   file:
+     dest: /usr/local/bin/docker-compose
+     mode: +x
+
+ - name: Create docker group
+   group:
+     name: docker
+     state: present
+
+ - name: Add user to docker group
+   user:
+     name: "{{ user }}"
+     groups: docker
+     append: yes
+
+ - name: Configure '50-unattended-upgares' file
+   lineinfile:
+     regexp: '//Unattended-Upgrade::Remove-Unused-Dependencies "false";'
+     line: 'Unattended-Upgrade::Remove-Unused-Dependencies "true";'
+     dest: /etc/apt/apt.conf.d/50unattended-upgrades
+     backrefs: yes
+
+ - name: Configure '20auto-upgrades' file
+   lineinfile:
+     line: "{{ item }}"
+     dest: /etc/apt/apt.conf.d/20auto-upgrades
+   loop:
+     - 'APT::Periodic::Download-Upgradeable-Packages "1";'
+     - 'APT::Periodic::AutocleanInterval "7";' 
+
+ - name: Restart unattended-upgrades service
+   systemd:
+     name: unattended-upgrades
+     state: restarted
+

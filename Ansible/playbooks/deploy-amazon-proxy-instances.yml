@@ -1,0 +1,8 @@
+---
+ - name:
+   hosts: local
+   connection: local
+   gather_facts: no
+
+   roles:
+     - deploy-amazon-proxy-instances

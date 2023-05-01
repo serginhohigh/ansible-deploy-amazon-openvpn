@@ -1,0 +1,12 @@
+---
+# vars file for deploy-amazon-instances
+
+instance_type: t2.micro
+amazon_vars:
+  - /etc/ansible/group_vars/amazon-openvpn-instances
+  - /etc/ansible/group_vars/amazon-proxy-instances
+wait_time: 1
+openvpn_users:
+  - vasyan
+  - petyan
+  - nikitos
