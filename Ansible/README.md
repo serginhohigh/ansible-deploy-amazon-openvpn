@@ -9,7 +9,7 @@
 
 ### Roles
 ---
-#### Prepare amazone environment for deploy instances
+#### Prepare amazon environment for deploy instances
 - [Playbook](./playbooks/prepare-amazon-environment.yml)
 - [Role](./roles/prepare-amazon-environment)
 > What is doing this role
@@ -46,14 +46,14 @@
 >    - Create group variables file in dir 'group_vars'
 >    - Create hosts variables file in dir 'host_vars'
 >    - Write some variables in each host file (look in [handlers](./roles/deploy-amazon-openvpn-instances/handlers/main.yml))
->    - Save instances information in csv file eg instance_id, public and privat ip etc
+>    - Save instances information in csv file eg instance_id, public and private ip etc
 
 #### Configure proxy instances
 - [Playbook](./playbooks/configure-proxy-instances.yml)
 - [Role](./roles/configure-proxy-instances)
 > What is doing this role
 > - Install strongswan, keepalived and copy their configuration files to target instance
-> - Install and configure unattended-upgares for automatiс security updates on each instance
+> - Install and configure unattended-upgrades for automatiс security updates on each instance
 > - Enable listed above services
 - Files for strongswan
   - [openvpn-proxy01.ipsec.conf](./roles/configure-proxy-instances/templates/openvpn-proxy01.ipsec.conf)
@@ -73,7 +73,7 @@
 - [Role](./roles/configure-openvpn-instances/)
 > What is doing this role
 > - Install docker and docker-compose on each host in '[amazon-openvpn-instances]' group
-> - Install and configure unattended-upgares for automatiс security updates on each instance
+> - Install and configure unattended-upgrades for automatiс security updates on each instance
 
 #### Push docker
 - [Playbook](./playbooks/push-docker.yml)
@@ -123,7 +123,7 @@ If you changed vpc cidr, then you should understand that you will have to make m
 >   - [openvpn-proxy02.ipsec.secrets](./roles/configure-proxy-instances/templates/openvpn-proxy02.ipsec.secrets)
 
 > Keepalived
-> - You shoud create IAM keys (permissions to assign private ip to instances) and add generated keys in the following configuration files
+> - You should create IAM keys (permissions to assign private ip to instances) and add generated keys in the following configuration files
 >   - [openvpn-proxy01.master.sh](./roles/configure-proxy-instances/templates/openvpn-proxy01.master.sh)
 >   - [openvpn-proxy01.backup.sh](./roles/configure-proxy-instances/templates/openvpn-proxy01.backup.sh)
 >   - [openvpn-proxy02.master.sh](./roles/configure-proxy-instances/templates/openvpn-proxy02.master.sh)

@@ -21,7 +21,7 @@ To use this you must complete the following steps:
    docker build . -t custom/openvpn
    ```
  - replace variables 'YOUR FQDN' and 'YOUR OPENVPN USER' in 'bin/openvpn_deploy'
- - configure easy-rsa for your openvpn serivice
+ - configure easy-rsa for your openvpn service
    ```sh
    docker-compose run --rm openvpn openvpn_deploy
    ```

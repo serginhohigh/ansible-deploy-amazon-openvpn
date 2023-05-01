@@ -1,10 +1,10 @@
 # Keepalived configuration for two proxy instances
 
-This is a simple keepalived configuration beetween 2 proxy instances. To do this on AWS ec2 was enough problematically, but i done it:blush:   
+This is a simple keepalived configuration between 2 proxy instances. To do this on AWS ec2 was enough problematically, but i done it:blush:   
 The essence of the problem is that ip broadcast and multicast does not work on AWS ec2 and the crutch hint which I found somewhere on the Internet is to use ec2-api-tools. I took the example of a stranger and used it as a lever for reassign virtual ip-address when one of my proxy is down. And its working. Thanks, stranger:thumbsup:
 
 How use it on your system? It's easy
-- create your IAM account in AWS with persmission for assign private ip addresses  
+- create your IAM account in AWS with permission for assign private ip addresses  
 - replace next strings in [openvpn-proxy01.keepalived.conf](openvpn-proxy01.keepalived.conf) and [openvpn-proxy02.keepalived.conf](openvpn-proxy02.keepalived.conf) configuration files
   - 'YOUR EMAIL RECEIVER'
   - 'YOUR EMAIL SENDER'

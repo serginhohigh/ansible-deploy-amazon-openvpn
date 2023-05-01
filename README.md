@@ -12,7 +12,7 @@ The purpose of this project is to provide access for employees from a remote bra
 
 ## Simple scheme how it works
 
-![](https://i.imgur.com/zTsh9g4.png)
+![](schema.png)
  
 ## Installation
 
